@@ -1,14 +1,21 @@
 # GPSTracker
 A light weight library for getting current user location, latitude, longitude, address, ip address and many more.
 
-Step 1)
+Step 1) Add library to your app level build file.<br>
+
+```diff
+- compile'com.github.ankitdubey021:GPSTracker:1.1'
+
+```
+
+Step 2)
 Add permission in manifest file as-
 ```diff
 + <uses-permission android:name="android.permission.INTERNET"/>
 + <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
    
-Step 2)
+Step 3)
 create object of MyTracker class
 ```diff
 - MyTracker tracker=new MyTracker(this);
