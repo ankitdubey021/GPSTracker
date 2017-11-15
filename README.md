@@ -8,14 +8,25 @@ Step 1) Add library to your app level build file.<br>
 
 ```
 
-Step 2)
+Step 2) In project level build file, add the jitpack repository
+```diff
+  allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+  }
+
+```
+
+Step 3)
 Add permission in manifest file as-
 ```diff
 + <uses-permission android:name="android.permission.INTERNET"/>
 + <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
    
-Step 3)
+Step 4)
 create object of MyTracker class
 ```diff
 - MyTracker tracker=new MyTracker(this);
