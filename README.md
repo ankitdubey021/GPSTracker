@@ -82,7 +82,7 @@ protected void onCreate(Bundle savedInstanceState) {<br>
     }
 
 
-MIT License
+<h2>MIT License</h2>
 
 Copyright (c) 2017 Ankit Dubey
 
