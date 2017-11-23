@@ -73,7 +73,9 @@ protected void onCreate(Bundle savedInstanceState) {
         System.out.println(tracker.macAddress);
     }
 ```
+
 ​
+
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 
