@@ -1,8 +1,7 @@
 # GPSTracker [![GitHub issues](https://img.shields.io/github/issues/ankitdubey021/GPSTracker.svg)](https://github.com/ankitdubey021/GPSTracker/issues)
 A light weight library for getting current user location, latitude, longitude, address, ip address and many more.
-
-## Installation
 ​
+## Installation
 <!-- TODO: add package -->
 Gradle:
 ```groovy
@@ -18,21 +17,14 @@ Maven:
 </dependency>
 ```
 
-## Basic usage
+## Requirement
 
 **Add permission in manifest file as-**
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
-
-   
-
-**create object of MyTracker class**
-```xml
-MyTracker tracker=new MyTracker(this);
-```
-
+​
 ## Sample Code ##
 ```java
 private static final int REQUEST_CODE_PERMISSION = 2;
@@ -81,7 +73,7 @@ protected void onCreate(Bundle savedInstanceState) {
         System.out.println(tracker.macAddress);
     }
 ```
-
+​
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 
