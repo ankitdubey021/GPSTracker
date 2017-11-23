@@ -1,46 +1,46 @@
-# GPSTracker
+# GPSTracker [![GitHub issues](https://img.shields.io/github/issues/ankitdubey021/GPSTracker.svg)](https://github.com/ankitdubey021/GPSTracker/issues)
 A light weight library for getting current user location, latitude, longitude, address, ip address and many more.
 
-Step 1) Add library to your app level build file.<br>
-
-```diff
-- compile'com.github.ankitdubey021:GPSTracker:1.1'
-
+## Installation
+​
+<!-- TODO: add package -->
+Gradle:
+```groovy
+compile'com.github.ankitdubey021:GPSTracker:1.1'
 ```
 
-Step 2) In project level build file, add the jitpack repository
-```diff
-  allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-  }
-
+Maven:
+```xml
+<dependency>
+	    <groupId>com.github.ankitdubey021</groupId>
+	    <artifactId>GPSTracker</artifactId>
+	    <version>1.1</version>
+</dependency>
 ```
 
-Step 3)
-Add permission in manifest file as-
-```diff
-+ <uses-permission android:name="android.permission.INTERNET"/>
-+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+## Basic usage
+
+**Add permission in manifest file as-**
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
+
    
-Step 4)
-create object of MyTracker class
-```diff
-- MyTracker tracker=new MyTracker(this);
 
+**create object of MyTracker class**
+```xml
+MyTracker tracker=new MyTracker(this);
 ```
 
-<h2>Sample Code</h2>
-
-private static final int REQUEST_CODE_PERMISSION = 2;<br>
-String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;<br>
-@Override<br>
-protected void onCreate(Bundle savedInstanceState) {<br>
-        super.onCreate(savedInstanceState);<br>
-        setContentView(R.layout.activity_main);<br>
+## Sample Code ##
+```java
+private static final int REQUEST_CODE_PERMISSION = 2;
+String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         try {
             if (ActivityCompat.checkSelfPermission(this, mPermission)
                     != MockPackageManager.PERMISSION_GRANTED) {
@@ -80,9 +80,10 @@ protected void onCreate(Bundle savedInstanceState) {<br>
         System.out.println(tracker.ipAddress);
         System.out.println(tracker.macAddress);
     }
+```
 
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
-<h2>MIT License</h2>
 
 Copyright (c) 2017 Ankit Dubey
 
