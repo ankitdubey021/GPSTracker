@@ -1,4 +1,4 @@
-# GPSTracker [![GitHub issues](https://img.shields.io/github/issues/ankitdubey021/GPSTracker.svg)](https://github.com/ankitdubey021/GPSTracker/issues)
+# GPSTracker 
 A light weight library for getting current user location, latitude, longitude, address, ip address and many more.
 ​
 ## Installation
