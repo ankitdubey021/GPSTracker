@@ -3,10 +3,23 @@ A light weight library for getting current user location, latitude, longitude, a
 ​
 ## Installation
 <!-- TODO: add package -->
+In project level build file, add the jitpack repository inside repositories of allprojects  as follows:
+```groovy
+allprojects {
+   repositories {
+        ...	
+	maven { url 'https://jitpack.io' }
+   }
+}
+
+```	
+
 Gradle:
 ```groovy
 compile'com.github.ankitdubey021:GPSTracker:1.1'
 ```
+
+
 
 Maven:
 ```xml
