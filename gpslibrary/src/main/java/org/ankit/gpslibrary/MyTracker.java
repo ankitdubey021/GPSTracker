@@ -1,183 +1,119 @@
 package org.ankit.gpslibrary;
 
-/**
- * Created by ankit dubey on 20-06-2017.
- */
-
 import android.Manifest;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-
 import android.os.Bundle;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.test.mock.MockPackageManager;
 import android.util.Log;
 
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
 import java.util.Locale;
 
-public class MyTracker extends Service implements LocationListener {
-        private static final int REQUEST_CODE_PERMISSION = 2;
-        private String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+public class MyTracker implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
-        private static long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
-        boolean canGetLocation;
-        boolean isGPSEnabled;
-        boolean isNetworkEnabled;
-        double latitude;
-        Location location;
-        protected LocationManager locationManager;
-        double longitude;
-        private Context mContext;
-        public String cityName,address,countryCode,zip,countryName,state,macAddress,ipAddress;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private ADLocationListener locListener;
+    Context ctx;
+    public MyTracker(Context ctx, ADLocationListener locListener){
+        this.ctx=ctx;
+        this.locListener=locListener;
+    }
+    public void track(){
 
 
+        mGoogleApiClient = new GoogleApiClient.Builder(ctx)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
 
-    public MyTracker(Context ctx) {
-        mContext=ctx;
-            isGPSEnabled = false;
-            isNetworkEnabled = false;
-            canGetLocation = false;
-        getLocation();
-        getAddress();
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.i("My Tracker", "Location services connected!.");
 
-    public Location getLocation() {
-        try {
+        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+            return;
+        }
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-            // getting GPS status
-            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        fetchLocation(location);
 
-            // getting network status
-            isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            } else {
-                this.canGetLocation = true;
-                // First get location from Network Provider
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                    Log.d("Network", "Network");
-                    if (locationManager != null) {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                    }
-                }
-
-                // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                        Log.d("GPS Enabled", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-                    }
-                }
+        if (location == null) {
+            if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
 
-        return location;
-    }
-    public double getLatitude() {
-        if (this.location != null) {
-            this.latitude = this.location.getLatitude();
-        }
-        return this.latitude;
     }
 
-    public double getLongitude() {
-        if (this.location != null) {
-            this.longitude = this.location.getLongitude();
-        }
-        return this.longitude;
-    }
-
-    public boolean canGetLocation() {
-        return this.canGetLocation;
-    }
-
-    public void onLocationChanged(Location location) {
-    }
-
-    public void onProviderDisabled(String provider) {
-    }
-
-    public void onProviderEnabled(String provider) {
-    }
-
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
-
-    public void onCreate() {
-        Log.d("OnCreate", "Service OnCreate Start");
-    }
-
-    private void getAddress(){
+    private void fetchLocation(Location location) {
+        List<Address> addresses;
+        Geocoder geocoder = new Geocoder(ctx, Locale.getDefault());
         try {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            ADLocation adLocation=new ADLocation();
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            adLocation.address= addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            adLocation.city=addresses.get(0).getLocality();
+            adLocation.state= addresses.get(0).getAdminArea();
+            adLocation.country = addresses.get(0).getCountryName();
+            adLocation.pincode= addresses.get(0).getPostalCode();
+            adLocation.lat=location.getLatitude();
+            adLocation.longi=location.getLongitude();
 
-            address = addresses.get(0).getAddressLine(0);
-            zip=addresses.get(0).getPostalCode();
-            cityName=addresses.get(0).getLocality();
-            countryCode=addresses.get(0).getCountryCode();
-            countryName=addresses.get(0).getCountryName();
-            state=addresses.get(0).getAdminArea();
-            macAddress=IPTracker.getMACAddress("wlan0");
-            ipAddress=IPTracker.getIPAddress(true);
-
-
-
-
-        }catch(Exception e){
-            System.out.println("------------->Exception");
+            locListener.whereIAM(adLocation);
+        }catch (Exception e){
             e.printStackTrace();
         }
 
+
     }
 
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.i("My Tracker", "Location services suspended. Please reconnect.");
+    }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i("My Tracker", "Location service connection failed.");
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        fetchLocation(location);
+    }
+
+    public interface ADLocationListener{
+        void whereIAM(ADLocation loc);
+    }
 }
+
+
+
