@@ -55,6 +55,38 @@ Maven:
 
 new MyTracker(getApplicationContext(),this).track();
 
+<h2>Sample code </h2>
+    void extract(){
+    
+        @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //ask for permission
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        }
+        else{
+            findLoc();
+        }
+    }
+
+    private void findLoc(){
+        new MyTracker(getApplicationContext(),this).track();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            findLoc();
+        }
+    }
+    @Override
+    public void whereIAM(ADLocation loc) {
+        System.out.println(loc);
+    }
+
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
