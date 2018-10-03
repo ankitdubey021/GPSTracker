@@ -19,22 +19,11 @@ Gradle:
 implementation 'com.github.ankitdubey021:GPSTracker:2.0'
 ```
 
-
-
-Maven:
-```xml
-<dependency>
-	    <groupId>com.github.ankitdubey021</groupId>
-	    <artifactId>GPSTracker</artifactId>
-	    <version>2.0</version>
-</dependency>
-```
-
 ## Requirement
 
 **Add permission in manifest file as-**
 ```xml
-<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 
