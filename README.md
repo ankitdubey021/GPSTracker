@@ -1,5 +1,5 @@
 # GPSTracker 
-A light weight library for getting current user location, latitude, longitude, address, ip address and many more.
+Very easy and user friendly library for getting current location, address and many more thing with a few line of code.
 ​
 ## Installation
 <!-- TODO: add package -->
@@ -42,7 +42,7 @@ Maven:
 <br>
 **Step 2. override whereIAm() method**
        
-        @Override
+    @Override
     public void whereIAM(ADLocation loc) {
         System.out.println(loc);
     }
