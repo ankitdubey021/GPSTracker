@@ -52,7 +52,9 @@ Maven:
 ​
 <h4> Step 3. get location </h4>
 ```java
+
 new MyTracker(getApplicationContext(),this).track();
+
 ```
 
 
