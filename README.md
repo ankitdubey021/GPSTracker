@@ -16,7 +16,7 @@ allprojects {
 
 Gradle:
 ```groovy
-compile'com.github.ankitdubey021:GPSTracker:1.1'
+implementation 'com.github.ankitdubey021:GPSTracker:2.0'
 ```
 
 
@@ -26,7 +26,7 @@ Maven:
 <dependency>
 	    <groupId>com.github.ankitdubey021</groupId>
 	    <artifactId>GPSTracker</artifactId>
-	    <version>1.1</version>
+	    <version>2.0</version>
 </dependency>
 ```
 
@@ -40,51 +40,22 @@ Maven:
 ​
 ## Sample Code ##
 ```java
-private static final int REQUEST_CODE_PERMISSION = 2;
-String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        try {
-            if (ActivityCompat.checkSelfPermission(this, mPermission)
-                    != MockPackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{mPermission, Manifest.permission.READ_PHONE_STATE},
-                        REQUEST_CODE_PERMISSION);
-            }else{
-                //read location
-                getLocation();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+## Step 1.
+implement MyTracker.ADLocationListener interface for getting location as callback
+
+## Step 2.
+override whereIAm() method
+
+ @Override
+    public void whereIAM(ADLocation loc) {
+        System.out.println(loc);
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                } else {
-                    System.out.println("permission denied!");
-                }
-                break;
-        }
-    }
-    void getLocation(){
-        MyTracker tracker=new MyTracker(this);
-        System.out.println(tracker.getLatitude());
-        System.out.println(tracker.getLongitude());
-        System.out.println(tracker.getLocation());
-        System.out.println(tracker.address);
-        System.out.println(tracker.cityName);
-        System.out.println(tracker.state);
-        System.out.println(tracker.countryName);
-        System.out.println(tracker.countryCode);
-        System.out.println(tracker.ipAddress);
-        System.out.println(tracker.macAddress);
-    }
+    
+## get location
+
+new MyTracker(getApplicationContext(),this).track();
+
 ```
 
 ​
