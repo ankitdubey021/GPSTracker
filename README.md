@@ -38,21 +38,21 @@ Maven:
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 ​
-## Sample Code ##
+
 ```java
 
-## Step 1.
-implement MyTracker.ADLocationListener interface for getting location as callback
 
-## Step 2.
-override whereIAm() method
+<h2> Step 1. implement MyTracker.ADLocationListener interface for getting location as callback </h2>
+
+
+<h2> Step 2. override whereIAm() method </h2>
 
  @Override
     public void whereIAM(ADLocation loc) {
         System.out.println(loc);
     }
     
-## get location
+<h4> Step 3. get location </h4>
 
 new MyTracker(getApplicationContext(),this).track();
 
