@@ -1,4 +1,4 @@
-# GPSTracker 
+# GPSTracker (out of maintenance)
 Very easy and user friendly library for getting current location, address and many more thing with a few line of code.
 ​
 ## Installation
